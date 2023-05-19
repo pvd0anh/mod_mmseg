@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 # yapf: disable
+from .dynamicearthnet import DynamicEarthNet
 from .ade import ADE20KDataset
 from .basesegdataset import BaseSegDataset
 from .chase_db1 import ChaseDB1Dataset

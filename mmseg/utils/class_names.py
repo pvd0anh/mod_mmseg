@@ -1,6 +1,12 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from mmengine.utils import is_str
 
+def dynamicearthnet_classes():
+    """dynamicearthnet class names for external use."""
+    return [
+        'impervious surface', 'agriculture', 'forest & other', 'wetland', 'soil', 'water'
+    ]
+
 
 def cityscapes_classes():
     """Cityscapes class names for external use."""
@@ -211,6 +217,12 @@ def mapillary_v2_classes():
     ]
 
 
+def dynamicearthnet_palette():
+    """dynamicearthnet palette for external use."""
+    return [
+        [96, 96, 96], [204, 204, 0], [0, 204, 0], [0, 0, 153], [153, 76, 0], [0, 128, 255]
+    ]
+
 def mapillary_v2_palette():
     """mapillary_v2_ palette for external use."""
     return [[165, 42, 42], [0, 192, 0], [250, 170, 31], [250, 170, 32],
@@ -420,6 +432,7 @@ def lip_palette():
 
 
 dataset_aliases = {
+    'dynamicearthnet': ['dynamicearthnet'],
     'cityscapes': ['cityscapes'],
     'ade': ['ade', 'ade20k'],
     'voc': ['voc', 'pascal_voc', 'voc12', 'voc12aug'],
