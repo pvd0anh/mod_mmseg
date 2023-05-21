@@ -69,8 +69,9 @@ train_dataloader = dict(
     persistent_workers=True,
     sampler=dict(type='InfiniteSampler', shuffle=True),
     dataset=dict(
-        type='CityscapesDataset',
-        data_root='data/cityscapes/',
+        type='DynamicEarthNet',
+        data_root=
+        '/home/Hung_Data/HungData/mmseg_data/Datasets/DynamicEarthNet/data_monthly',
         data_prefix=dict(img_path='planet', seg_map_path='labels'),
         pipeline=[
             dict(type='LoadImageFromFile'),
@@ -93,10 +94,10 @@ val_dataloader = dict(
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=False),
     dataset=dict(
-        type='CityscapesDataset',
-        data_root='data/cityscapes/',
-        data_prefix=dict(
-            img_path='leftImg8bit/val', seg_map_path='gtFine/val'),
+        type='DynamicEarthNet',
+        data_root=
+        '/home/Hung_Data/HungData/mmseg_data/Datasets/DynamicEarthNet/data_monthly',
+        data_prefix=dict(img_path='planet', seg_map_path='labels'),
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='Resize', scale=(2048, 1024), keep_ratio=True),
