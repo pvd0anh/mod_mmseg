@@ -10,8 +10,8 @@ class DynamicEarthNet(BaseSegDataset):
         palette=[[96, 96, 96], [204, 204, 0], [0, 204, 0], [0, 0, 153], [153, 76, 0], [0, 128, 255]])
 
     def __init__(self,
-                 img_suffix='.tif',
-                 seg_map_suffix='.tif',
+                 img_suffix='.png',
+                 seg_map_suffix='.png',
                  **kwargs) -> None:
         super().__init__(
             img_suffix=img_suffix, seg_map_suffix=seg_map_suffix, **kwargs)

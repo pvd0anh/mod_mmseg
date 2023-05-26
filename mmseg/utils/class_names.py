@@ -3,9 +3,7 @@ from mmengine.utils import is_str
 
 def dynamicearthnet_classes():
     """dynamicearthnet class names for external use."""
-    return [
-        'impervious surface', 'agriculture', 'forest & other', 'wetland', 'soil', 'water'
-    ]
+    return ['impervious surface', 'agriculture', 'forest & other', 'wetland', 'soil', 'water']
 
 
 def cityscapes_classes():

@@ -2,9 +2,8 @@ dataset_type = 'DynamicEarthNet'
 data_root = 'data/DynamicEarthNet/'
 
 crop_size = (1024, 1024)
+# dataset settings
 
-# example follow
-"""
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations'),
@@ -51,7 +50,9 @@ train_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_prefix=dict(
-            img_path='leftImg8bit/train', seg_map_path='gtFine/train'),
+            img_path='planet', seg_map_path='labels'),
+        img_suffix='.png', seg_map_suffix='.png',
+        ann_file = 'splits/train.txt',
         pipeline=train_pipeline))
 val_dataloader = dict(
     batch_size=1,
@@ -62,10 +63,11 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_prefix=dict(
-            img_path='leftImg8bit/val', seg_map_path='gtFine/val'),
+            img_path='planet', seg_map_path='labels'),
+        img_suffix='.png', seg_map_suffix='.png',
+        ann_file = 'splits/val.txt',
         pipeline=test_pipeline))
 test_dataloader = val_dataloader
 
 val_evaluator = dict(type='IoUMetric', iou_metrics=['mIoU'])
 test_evaluator = val_evaluator
-"""
