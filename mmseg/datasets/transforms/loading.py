@@ -9,6 +9,8 @@ from mmcv.transforms import BaseTransform
 from mmcv.transforms import LoadAnnotations as MMCV_LoadAnnotations
 from mmcv.transforms import LoadImageFromFile
 
+import rasterio
+
 from mmseg.registry import TRANSFORMS
 from mmseg.utils import datafrombytes
 
@@ -126,6 +128,68 @@ class LoadAnnotations(MMCV_LoadAnnotations):
         repr_str += f"imdecode_backend='{self.imdecode_backend}', "
         repr_str += f'backend_args={self.backend_args})'
         return repr_str
+
+@TRANSFORMS.register_module()
+class LoadImageFromTIF(LoadImageFromFile):
+    """Load an image from ``results['img']``.
+
+    Similar with :obj:`LoadImageFromFile`, but the image has been loaded as
+    :obj:`np.ndarray` in ``results['img']``. Can be used when loading image
+    from webcam.
+
+    Required Keys:
+
+    - img_path
+
+    Modified Keys:
+
+    - img
+    - img_path
+    - img_shape
+    - ori_shape
+
+    Args:
+        to_float32 (bool): Whether to convert the loaded image to a float32
+            numpy array. If set to False, the loaded image is an uint8 array.
+            Defaults to False.
+    """
+    def _undo_normalize_scale_3(self, im):
+        mean = [1042.59240722656, 915.618408203125, 671.260559082031]
+        std = [957.958435058593, 715.548767089843, 596.943908691406]
+        im = im * std + mean
+        array_min, array_max = im.min(), im.max()
+        im = (im - array_min) / (array_max - array_min)
+        im *= 255.0
+        return im.astype(np.uint8)
+    
+    def transform(self, results: dict) -> dict:
+        """Transform function to add image meta information.
+
+        Args:
+            results (dict): Result dict with Webcam read image in
+                ``results['img']``.
+
+        Returns:
+            dict: The dict contains loaded image and meta information.
+        """
+        filename = results['img_path']
+        
+        img = rasterio.open(filename)
+        red = img.read(3)
+        green = img.read(2)
+        blue = img.read(1)
+        nir = img.read(4)
+        
+        image = np.dstack((red, green, blue))
+
+        
+        image = self._undo_normalize_scale_3(image)
+        image = image.astype(np.float32)
+        results['img'] = image
+        results['img_shape'] = image.shape[:2]
+        results['ori_shape'] = image.shape[:2]
+        return results
+    
 
 
 @TRANSFORMS.register_module()

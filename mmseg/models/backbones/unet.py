@@ -424,6 +424,7 @@ class UNet(BaseModule):
 
     def _check_input_divisible(self, x):
         h, w = x.shape[-2:]
+        # print(h, w)
         whole_downsample_rate = 1
         for i in range(1, self.num_stages):
             if self.strides[i] == 2 or self.downsamples[i - 1]:

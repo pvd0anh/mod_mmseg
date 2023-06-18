@@ -15,3 +15,5 @@ class DynamicEarthNet(BaseSegDataset):
                  **kwargs) -> None:
         super().__init__(
             img_suffix=img_suffix, seg_map_suffix=seg_map_suffix, **kwargs)
+
+
